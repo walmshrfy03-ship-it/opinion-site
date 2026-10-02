@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>شاركنا رأيك</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #111827, #1f2937);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: white;
+      border-radius: 25px;
+      padding: 30px 25px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    .icon {
+      width: 75px;
+      height: 75px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+    }
+
+    h1 {
+      color: #111827;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .description {
+      color: #6b7280;
+      margin-bottom: 25px;
+      line-height: 1.7;
+    }
+
+    label {
+      display: block;
+      text-align: right;
+      margin-bottom: 8px;
+      color: #374151;
+      font-weight: bold;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 18px;
+      font-size: 16px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #25D366;
+      box-shadow: 0 0 0 3px rgba(37,211,102,0.15);
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 15px;
+      background: #25D366;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #20b957;
+      transform: translateY(-1px);
+    }
+
+    .note {
+      margin-top: 15px;
+      color: #9ca3af;
+      font-size: 13px;
+    }
+
+    .error {
+      color: #dc2626;
+      font-size: 14px;
+      margin-bottom: 15px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="icon">💬</div>
+
+    <h1>شاركنا رأيك</h1>
+
+    <p class="description">
+      رأيك يهمنا ❤️<br>
+      اكتب رأيك أو اقتراحك وسنكون سعداء بقراءته.
+    </p>
+
+    <form id="opinionForm">
+
+      <label for="name">اسمك</label>
+
+      <input
+        type="text"
+        id="name"
+        placeholder="اكتب اسمك"
+        maxlength="50"
+      >
+
+      <label for="opinion">رأيك</label>
+
+      <textarea
+        id="opinion"
+        placeholder="اكتب رأيك هنا..."
+        maxlength="1000"
+      ></textarea>
+
+      <div class="error" id="error">
+        الرجاء كتابة اسمك ورأيك أولاً.
+      </div>
+
+      <button type="submit">
+        إرسال الرأي عبر واتساب
+      </button>
+
+    </form>
+
+    <p class="note">
+      سيتم فتح واتساب مع الرسالة جاهزة للإرسال.
+    </p>
+
+  </div>
+
+  <script>
+
+    // رقم واتساب المستلم
+    const whatsappNumber = "96899144417";
+
+    const form = document.getElementById("opinionForm");
+    const nameInput = document.getElementById("name");
+    const opinionInput = document.getElementById("opinion");
+    const errorMessage = document.getElementById("error");
+
+    form.addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      const name = nameInput.value.trim();
+      const opinion = opinionInput.value.trim();
+
+      // التحقق من البيانات
+      if (!name || !opinion) {
+        errorMessage.style.display = "block";
+        return;
+      }
+
+      errorMessage.style.display = "none";
+
+      // إنشاء الرسالة
+      const message =
+        "💬 رأي جديد من الموقع\n\n" +
+        "👤 الاسم: " + name + "\n\n" +
+        "📝 الرأي:\n" + opinion;
+
+      // تحويل الرسالة إلى رابط آمن
+      const encodedMessage = encodeURIComponent(message);
+
+      // رابط واتساب
+      const whatsappURL =
+        "https://wa.me/" +
+        whatsappNumber +
+        "?text=" +
+        encodedMessage;
+
+      // فتح واتساب
+      window.open(whatsappURL, "_blank");
+
+    });
+
+  </script>
+
+</body>
+  </html>
