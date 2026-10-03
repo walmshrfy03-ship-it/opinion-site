@@ -9,213 +9,122 @@
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
     }
 
     body {
+      margin: 0;
       min-height: 100vh;
-      background: linear-gradient(135deg, #111827, #1f2937);
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #dff6ff, #f5e9ff);
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       padding: 20px;
     }
 
     .container {
-      width: 100%;
-      max-width: 500px;
-      background: white;
-      border-radius: 25px;
-      padding: 30px 25px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      width: min(900px, 100%);
+      aspect-ratio: 16 / 9;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
     }
 
-    .icon {
-      width: 75px;
-      height: 75px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      background: #25D366;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 38px;
-    }
-
     h1 {
-      color: #111827;
-      margin-bottom: 10px;
-      font-size: 28px;
-    }
-
-    .description {
-      color: #6b7280;
+      color: #333;
       margin-bottom: 25px;
-      line-height: 1.7;
+      font-size: clamp(26px, 5vw, 48px);
     }
 
-    label {
-      display: block;
-      text-align: right;
-      margin-bottom: 8px;
-      color: #374151;
-      font-weight: bold;
+    .cloud {
+      position: relative;
+      width: min(650px, 90vw);
+      min-height: 300px;
+      background: white;
+      border-radius: 120px;
+      padding: 55px 45px 40px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
     }
 
-    input,
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      z-index: -1;
+    }
+
+    .cloud::before {
+      width: 180px;
+      height: 180px;
+      top: -70px;
+      right: 100px;
+    }
+
+    .cloud::after {
+      width: 140px;
+      height: 140px;
+      top: -45px;
+      left: 120px;
+    }
+
     textarea {
       width: 100%;
-      border: 1px solid #d1d5db;
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 18px;
-      font-size: 16px;
-      outline: none;
-      transition: 0.2s;
-    }
-
-    input:focus,
-    textarea:focus {
-      border-color: #25D366;
-      box-shadow: 0 0 0 3px rgba(37,211,102,0.15);
-    }
-
-    textarea {
-      min-height: 140px;
+      min-height: 150px;
       resize: vertical;
+      border: 2px solid #e3e3e3;
+      border-radius: 20px;
+      padding: 18px;
+      font-size: 18px;
+      font-family: inherit;
+      outline: none;
+      text-align: right;
+    }
+
+    textarea:focus {
+      border-color: #8b7cff;
     }
 
     button {
-      width: 100%;
+      margin-top: 18px;
       border: none;
-      border-radius: 14px;
-      padding: 15px;
-      background: #25D366;
-      color: white;
+      border-radius: 30px;
+      padding: 14px 35px;
       font-size: 18px;
-      font-weight: bold;
+      font-family: inherit;
       cursor: pointer;
+      background: #6c63ff;
+      color: white;
       transition: 0.2s;
     }
 
     button:hover {
-      background: #20b957;
-      transform: translateY(-1px);
+      transform: scale(1.04);
     }
 
-    .note {
+    #message {
       margin-top: 15px;
-      color: #9ca3af;
-      font-size: 13px;
+      color: #555;
+      font-size: 16px;
     }
 
-    .error {
-      color: #dc2626;
-      font-size: 14px;
-      margin-bottom: 15px;
-      display: none;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="container">
-
-    <div class="icon">💬</div>
-
-    <h1>شاركنا رأيك</h1>
-
-    <p class="description">
-      رأيك يهمنا ❤️<br>
-      اكتب رأيك أو اقتراحك وسنكون سعداء بقراءته.
-    </p>
-
-    <form id="opinionForm">
-
-      <label for="name">اسمك</label>
-
-      <input
-        type="text"
-        id="name"
-        placeholder="اكتب اسمك"
-        maxlength="50"
-      >
-
-      <label for="opinion">رأيك</label>
-
-      <textarea
-        id="opinion"
-        placeholder="اكتب رأيك هنا..."
-        maxlength="1000"
-      ></textarea>
-
-      <div class="error" id="error">
-        الرجاء كتابة اسمك ورأيك أولاً.
-      </div>
-
-      <button type="submit">
-        إرسال الرأي عبر واتساب
-      </button>
-
-    </form>
-
-    <p class="note">
-      سيتم فتح واتساب مع الرسالة جاهزة للإرسال.
-    </p>
-
-  </div>
-
-  <script>
-
-    // رقم واتساب المستلم
-    const whatsappNumber = "96899144417";
-
-    const form = document.getElementById("opinionForm");
-    const nameInput = document.getElementById("name");
-    const opinionInput = document.getElementById("opinion");
-    const errorMessage = document.getElementById("error");
-
-    form.addEventListener("submit", function(event) {
-
-      event.preventDefault();
-
-      const name = nameInput.value.trim();
-      const opinion = opinionInput.value.trim();
-
-      // التحقق من البيانات
-      if (!name || !opinion) {
-        errorMessage.style.display = "block";
-        return;
+    @media (max-width: 600px) {
+      .container {
+        aspect-ratio: auto;
+        min-height: 100vh;
       }
 
-      errorMessage.style.display = "none";
+      .cloud {
+        padding: 45px 20px 30px;
+        min-height: 320px;
+      }
 
-      // إنشاء الرسالة
-      const message =
-        "💬 رأي جديد من الموقع\n\n" +
-        "👤 الاسم: " + name + "\n\n" +
-        "📝 الرأي:\n" + opinion;
-
-      // تحويل الرسالة إلى رابط آمن
-      const encodedMessage = encodeURIComponent(message);
-
-      // رابط واتساب
-      const whatsappURL =
-        "https://wa.me/" +
-        whatsappNumber +
-        "?text=" +
-        encodedMessage;
-
-      // فتح واتساب
-      window.open(whatsappURL, "_blank");
-
-    });
-
-  </script>
-
-</body>
-  </html>
+      textarea {
+        min-height: 140px;
+      }
+    }
+  </style>
