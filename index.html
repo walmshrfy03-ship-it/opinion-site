@@ -46,7 +46,7 @@
       background: white;
       border-radius: 120px;
       padding: 55px 45px 40px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
     }
 
     .cloud::before,
@@ -83,10 +83,12 @@
       font-family: inherit;
       outline: none;
       text-align: right;
+      transition: 0.2s;
     }
 
     textarea:focus {
       border-color: #8b7cff;
+      box-shadow: 0 0 0 4px rgba(139, 124, 255, 0.12);
     }
 
     button {
@@ -104,12 +106,28 @@
 
     button:hover {
       transform: scale(1.04);
+      background: #574fff;
+    }
+
+    button:active {
+      transform: scale(0.98);
     }
 
     #message {
       margin-top: 15px;
       color: #555;
       font-size: 16px;
+      min-height: 24px;
+    }
+
+    .success {
+      color: #249653 !important;
+      font-weight: bold;
+    }
+
+    .error {
+      color: #d64545 !important;
+      font-weight: bold;
     }
 
     @media (max-width: 600px) {
@@ -126,5 +144,61 @@
       textarea {
         min-height: 140px;
       }
+
+      h1 {
+        margin-bottom: 20px;
+      }
     }
   </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <h1>شاركنا رأيك 💭</h1>
+
+    <section class="cloud">
+
+      <textarea
+        id="opinion"
+        placeholder="اكتب رأيك هنا..."
+        maxlength="1000"
+      ></textarea>
+
+      <button id="submitBtn" type="button">
+        إرسال الرأي
+      </button>
+
+      <div id="message"></div>
+
+    </section>
+
+  </main>
+
+  <script>
+    const opinion = document.getElementById("opinion");
+    const submitBtn = document.getElementById("submitBtn");
+    const message = document.getElementById("message");
+
+    submitBtn.addEventListener("click", function () {
+
+      const text = opinion.value.trim();
+
+      if (text === "") {
+        message.textContent = "من فضلك اكتب رأيك أولًا.";
+        message.className = "error";
+        opinion.focus();
+        return;
+      }
+
+      message.textContent = "تم إرسال رأيك بنجاح، شكرًا لمشاركتك ❤️";
+      message.className = "success";
+
+      opinion.value = "";
+
+    });
+  </script>
+
+</body>
+  </html>
